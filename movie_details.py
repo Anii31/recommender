@@ -42,6 +42,7 @@ def set_style():
             margin-bottom: 20px;
             text-align: center;
             border-radius: 5px;
+            color: black;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
         </style>
