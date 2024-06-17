@@ -27,14 +27,14 @@ class MultiApp:
                   menu_icon='chat-text-fill',
                 default_index=0,
                  styles={
-                    "container": { "padding": "5!important", "background-color": "#ff6347" },
+                    "container": { "padding": "5!important", "background-color": "#C0C0C0" },
                     "icon": {"color": "orange", "font-size": "25px"},
                     "nav-link": {
                         "font-size": "16px",
                         "text-align": "left",
                         "margin": "0px",
                         "color": "black",  # Text color for menu items
-                        "--hover-color": "#eee",
+                        "--hover-color": "#D3D3D3" ,
                     },
                     "nav-link-selected": {"background-color": "#02ab21"},
                     "menu-title": {"color": "black"}  # Text color for menu title
