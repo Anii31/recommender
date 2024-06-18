@@ -2,6 +2,7 @@ import streamlit as st
 from streamlit_option_menu import option_menu
 import home
 import movie_details
+import Genres
 
 # Set page configuration
 st.set_page_config(
@@ -22,7 +23,7 @@ class MultiApp:
         with st.sidebar:
             app = option_menu(
                 menu_title="Recommendation",
-                options=['Home', 'Movie Details'],
+                options=['Home', 'Movie Details','Genres'],
                  icons=['house-fill', 'person-circle'],
                   menu_icon='chat-text-fill',
                 default_index=0,
@@ -46,9 +47,12 @@ class MultiApp:
             home.app()
         elif app == 'Movie Details':
             movie_details.app()
+        elif app == 'Genres':
+            Genres.app()
 
 # Example usage
 app = MultiApp()
 app.add_app('Home', home.app)
 app.add_app('Movie Details', movie_details.app)
+app.add_app('Genres search',Genres.app)
 app.run()
