@@ -2,7 +2,6 @@ import streamlit as st
 import pickle
 import pandas as pd
 import requests
-import time
 
 def app():
     # Apply custom CSS to add a background image and style elements
@@ -14,12 +13,16 @@ def app():
             background-size: cover;
         }
         .title {
-            font-size: 48px;
-            color: #ff6347; /* Change to your desired color */
+            font-size: 50px;
             text-align: center;
+            background: linear-gradient(to left, yellow, red, yellow, orange, red, yellow);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+             font-weight: bold;
+            animation: rainbow-text-animation 10s ease-in-out infinite;
         }
         .blue-bg {
-            background-color: #add8e6; /* Light blue color */
+            background-color: #DCDCDC; /* glass blue */
             padding: 10px;
             border-radius: 5px;
             text-align: center;
@@ -53,6 +56,18 @@ def app():
             font-size: 18px;
             font-weight: bold;
         }
+       
+        @keyframes rainbow-text-animation {
+            0% {
+                background-position: 50%;
+            }
+            50% {
+                background-position: 100% ;
+            }
+            100% {
+                background-position: 50%;
+            }
+        }
         </style>
         """,
         unsafe_allow_html=True
@@ -67,7 +82,7 @@ def app():
     def recommend(movie):
         movie_index = movies[movies['title'] == movie].index[0]
         distances = similarity[movie_index]
-        movies_list = sorted(list(enumerate(distances)), reverse=True, key=lambda x: x[1])[1:8]
+        movies_list = sorted(list(enumerate(distances)), reverse=True, key=lambda x: x[1])[0:7]
 
         recommended_movies = []
         recommended_movies_poster = []
@@ -78,6 +93,7 @@ def app():
             # Fetch poster from API
             recommended_movies_poster.append(fetch_poster(movie_id))
         return recommended_movies, recommended_movies_poster
+    
 
     # Load the movie data and similarity matrix
     movies_dict = pickle.load(open('movies_dict.pkl', 'rb'))
@@ -85,20 +101,20 @@ def app():
     movies = pd.DataFrame(movies_dict)
 
     # Title and description
-    st.markdown('<h1 class="title">Movie Recommender System</h1>', unsafe_allow_html=True)
-    st.markdown('<div class="blue-bg">Search for a movie to get recommendations.</div>', unsafe_allow_html=True)
+    st.markdown('<h1 class="title">HUNT FOR TOP FLICKS</h1>', unsafe_allow_html=True)
+    st.markdown('<div class="blue-bg">Search a movie to get recommendations.</div>', unsafe_allow_html=True)
 
     # Center the select box and search button
     st.markdown('<div class="center-content">', unsafe_allow_html=True)
     selected_movie = st.selectbox('Search movies', movies['title'].values)
     st.markdown('</div>', unsafe_allow_html=True)
 
-    if st.button('Search'):
+    if st.button('Search Movie'):
         # Create a custom spinner text
         with st.empty():
             spinner_placeholder = st.empty()
             spinner_placeholder.markdown('<div class="custom-spinner-text">Finding recommendations...</div>', unsafe_allow_html=True)
-            time.sleep(1)  # Simulate a delay for finding recommendations
+
 
             recommendation, poster = recommend(selected_movie) 
 
@@ -111,6 +127,7 @@ def app():
                         st.image(poster[idx])
                         st.markdown(f'<h4 style="color:lightblue;">{recommendation[idx]}</h4>', unsafe_allow_html=True)
                         st.markdown('</div>', unsafe_allow_html=True)
+
 
 if __name__ == "__main__":
     app()
